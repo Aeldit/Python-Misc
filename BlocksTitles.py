@@ -1,10 +1,14 @@
+#!/bin/env python3
 """
 @author: Aeldit <https://github.com/Aeldit/>
-@summary: Prints in the console the given text but as a 'blocks' title
+@summary: Prints in the console (Windows) or adds to the clipboard the given text but as a 'blocks' title
 """
+import sys
+
+import pyperclip
 
 LETTERS = {
-    "A": [
+    'A': [
         " █████╗ ",
         "██╔══██╗",
         "███████║",
@@ -12,7 +16,7 @@ LETTERS = {
         "██║  ██║",
         "╚═╝  ╚═╝"
     ],
-    "B": [
+    'B': [
         "██████╗ ",
         "██╔══██╗",
         "██████╔╝",
@@ -20,7 +24,7 @@ LETTERS = {
         "██████╔╝",
         "╚═════╝ "
     ],
-    "C": [
+    'C': [
         " ██████╗",
         "██╔════╝",
         "██║     ",
@@ -28,7 +32,7 @@ LETTERS = {
         "╚██████╗",
         " ╚═════╝"
     ],
-    "D": [
+    'D': [
         "██████╗ ",
         "██╔══██╗",
         "██║  ██║",
@@ -36,7 +40,7 @@ LETTERS = {
         "██████╔╝",
         "╚═════╝"
     ],
-    "E": [
+    'E': [
         "███████╗",
         "██╔════╝",
         "███████╗",
@@ -44,7 +48,7 @@ LETTERS = {
         "███████╗",
         "╚══════╝"
     ],
-    "F": [
+    'F': [
         "███████╗",
         "██╔════╝",
         "███████╗",
@@ -52,7 +56,7 @@ LETTERS = {
         "██║     ",
         "╚═╝     "
     ],
-    "G": [
+    'G': [
         " ████████╗",
         "██╔══════╝",
         "██║ ████╗ ",
@@ -60,7 +64,7 @@ LETTERS = {
         "╚███████╔╝",
         " ╚══════╝ "
     ],
-    "H": [
+    'H': [
         "██╗  ██╗",
         "██║  ██║",
         "███████║",
@@ -68,7 +72,7 @@ LETTERS = {
         "██║  ██║",
         "╚═╝  ╚═╝"
     ],
-    "I": [
+    'I': [
         "██╗ ",
         "╚═╝ ",
         "██╗ ",
@@ -76,7 +80,7 @@ LETTERS = {
         "██║ ",
         "╚═╝ "
     ],
-    "J": [
+    'J': [
         "   ██╗",
         "   ██║",
         "   ██║",
@@ -84,7 +88,7 @@ LETTERS = {
         "████╔╝",
         "╚═══╝"
     ],
-    "K": [
+    'K': [
         "██╗  ██╗",
         "██║ ██╔╝",
         "█████╔╝ ",
@@ -92,7 +96,7 @@ LETTERS = {
         "██║ ╚██╗",
         "╚═╝  ╚═╝"
     ],
-    "L": [
+    'L': [
         "██╗     ",
         "██║     ",
         "██║     ",
@@ -100,7 +104,7 @@ LETTERS = {
         "███████╗",
         "╚══════╝"
     ],
-    "M": [
+    'M': [
         "██╗   ██╗",
         "████████║",
         "██╔██═██║",
@@ -108,7 +112,7 @@ LETTERS = {
         "██║   ██║",
         "╚═╝   ╚═╝"
     ],
-    "N": [
+    'N': [
         "██╗   ██╗",
         "████╗ ██║",
         "██╔██╗██║",
@@ -116,7 +120,7 @@ LETTERS = {
         "██║  ╚██║",
         "╚═╝   ╚═╝"
     ],
-    "O": [
+    'O': [
         " ██████╗ ",
         "██╔═══██╗",
         "██║   ██║",
@@ -124,7 +128,7 @@ LETTERS = {
         "╚██████╔╝",
         " ╚═════╝ "
     ],
-    "P": [
+    'P': [
         "██████╗ ",
         "██╔══██╗",
         "██████╔╝",
@@ -132,7 +136,7 @@ LETTERS = {
         "██║     ",
         "╚═╝     "
     ],
-    "Q": [
+    'Q': [
         " ██████╗  ",
         "██╔═══██╗ ",
         "██║   ██║ ",
@@ -140,7 +144,7 @@ LETTERS = {
         "╚████████╗",
         " ╚═══════╝"
     ],
-    "R": [
+    'R': [
         "██████╗ ",
         "██╔══██╗",
         "██████╔╝",
@@ -148,7 +152,7 @@ LETTERS = {
         "██║  ██║",
         "╚═╝  ╚═╝"
     ],
-    "S": [
+    'S': [
         " ██████╗",
         "██╔════╝",
         "╚█████╗ ",
@@ -156,7 +160,7 @@ LETTERS = {
         "██████╔╝",
         "╚═════╝ "
     ],
-    "T": [
+    'T': [
         "████████╗",
         "╚══██╔══╝",
         "   ██║   ",
@@ -164,7 +168,7 @@ LETTERS = {
         "   ██║   ",
         "   ╚═╝   "
     ],
-    "U": [
+    'U': [
         "██╗   ██╗",
         "██║   ██║",
         "██║   ██║",
@@ -172,7 +176,7 @@ LETTERS = {
         "╚██████╔╝",
         " ╚═════╝ "
     ],
-    "V": [
+    'V': [
         "██╗     ██╗",
         "╚██╗   ██╔╝",
         " ╚██╗ ██╔╝ ",
@@ -180,7 +184,7 @@ LETTERS = {
         "   ╚██╔╝   ",
         "    ╚═╝    "
     ],
-    "W": [
+    'W': [
         "██╗         ██╗",
         "╚██╗       ██╔╝",
         " ╚██╗ ██╗ ██╔╝ ",
@@ -188,7 +192,7 @@ LETTERS = {
         "   ╚██╔═██╔╝   ",
         "    ╚═╝ ╚═╝    "
     ],
-    "X": [
+    'X': [
         "██╗   ██╗",
         "╚██╗ ██╔╝",
         " ╚████╔╝ ",
@@ -196,7 +200,7 @@ LETTERS = {
         "██╔╝ ╚██╗",
         "╚═╝   ╚═╝"
     ],
-    "Y": [
+    'Y': [
         "██╗   ██╗",
         "╚██╗ ██╔╝",
         " ╚████╔╝ ",
@@ -204,7 +208,7 @@ LETTERS = {
         "   ██║   ",
         "   ╚═╝   "
     ],
-    "Z": [
+    'Z': [
         "████████╗",
         "     ██╔╝",
         "   ██╔═╝ ",
@@ -212,6 +216,14 @@ LETTERS = {
         "████████╗",
         "╚═══════╝"
     ],
+    ' ': [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+    ]
 }
 
 
@@ -223,18 +235,35 @@ def main(text: str) -> None:
         if s in LETTERS.keys():
             letters.append(LETTERS[s])
 
-    lines: list[list | str] = [[], [], [], [], [], []]
-    for line in range(6):
-        # For each letter, add its part of index 'line' to the list of index 'line'
+    lines: list[str] = []
+    current_line = []
+    for line_nb in range(6):
+        # For each letter, add its part of index 'line_nb' to current_line
         for s in range(len(text)):
-            lines[line].append(letters[s][line])
+            current_line.append(letters[s][line_nb])
         # Makes all the values in the current list a single string
-        lines[line] = "".join(lines[line])
+        lines.append("".join(current_line))
+        current_line.clear()
 
     final_str = "%s\n%s\n%s\n%s\n%s\n%s" % (lines[0], lines[1], lines[2], lines[3], lines[4], lines[5])
-    print(final_str)
+    pyperclip.copy(final_str)
+    print("The title has been successfully added to your clipboard, you can now copy it where you want")
     return None
 
 
 if __name__ == '__main__':
-    main("testing")
+    if "linux" in sys.platform:
+        if len(sys.argv) > 2:
+            print("Wrong number of arguments.\nTry '%s -h' for more information." % sys.argv[0])
+            exit(1)
+        if sys.argv[1] == "-h":
+            print(
+                "Usage: %s [TEXT] ...\n\n"
+                "Adds to your clipboard the given text under the form of a block title\n\n"
+                "Example:\n%s \"My title\"" % (sys.argv[0], sys.argv[0])
+            )
+        else:
+            main(sys.argv[1])
+    else:
+        # Replace the text here manually if you are on any other system than Linux
+        main("Your text")
