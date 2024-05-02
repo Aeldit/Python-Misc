@@ -1,3 +1,8 @@
+"""
+@author: Aeldit <https://github.com/Aeldit/>
+@summary: Prints in the console the given text but as a 'blocks' title
+"""
+
 LETTERS = {
     "A": [
         " █████╗ ",
