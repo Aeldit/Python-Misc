@@ -48,12 +48,12 @@ LETTERS = {
         "╚═╝     "
     ],
     "G": [
-        " ██████╗",
-        "██╔════╝",
-        "██║███╗ ",
-        "██║╚═██╗",
-        "╚█████╔╝",
-        " ╚════╝ "
+        " ████████╗",
+        "██╔══════╝",
+        "██║ ████╗ ",
+        "██║ ╚══██╗",
+        "╚███████╔╝",
+        " ╚══════╝ "
     ],
     "H": [
         "██╗  ██╗",
@@ -64,12 +64,12 @@ LETTERS = {
         "╚═╝  ╚═╝"
     ],
     "I": [
-        "██╗",
-        "╚═╝",
-        "██╗",
-        "██║",
-        "██║",
-        "╚═╝"
+        "██╗ ",
+        "╚═╝ ",
+        "██╗ ",
+        "██║ ",
+        "██║ ",
+        "╚═╝ "
     ],
     "J": [
         "   ██╗",
@@ -212,8 +212,11 @@ LETTERS = {
 
 def main(text: str) -> None:
     letters: list[list] = []
+    # Appends all the letters found in the given string
+    # (if the given letters are defined in the LETTERS array)
     for s in text.upper():
-        letters.append(LETTERS[s])
+        if s in LETTERS.keys():
+            letters.append(LETTERS[s])
 
     lines: list[list | str] = [[], [], [], [], [], []]
     for line in range(6):
@@ -229,4 +232,4 @@ def main(text: str) -> None:
 
 
 if __name__ == '__main__':
-    main("k")
+    main("testing")
