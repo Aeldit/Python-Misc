@@ -228,22 +228,22 @@ LETTERS = {
 
 
 def main(text: str) -> None:
-    letters: list[list] = []
+    """
+    Takes the given string and puts it in the user clipboard
+    @param text: The text to transform into a blocks title
+    @return: None
+    """
     # Appends all the letters found in the given string
     # (if the given letters are defined in the LETTERS array)
-    for s in text.upper():
-        if s in LETTERS.keys():
-            letters.append(LETTERS[s])
+    letters: list[list] = [LETTERS[s] for s in text.upper() if s in LETTERS.keys()]
 
     lines: list[str] = []
-    current_line = []
+    text_len = len(text)
     for line_nb in range(6):
         # For each letter, add its part of index 'line_nb' to current_line
-        for s in range(len(text)):
-            current_line.append(letters[s][line_nb])
+        current_line = [letters[s][line_nb] for s in range(text_len)]
         # Makes all the values in the current list a single string
         lines.append("".join(current_line))
-        current_line.clear()
 
     final_str = "%s\n%s\n%s\n%s\n%s\n%s" % (lines[0], lines[1], lines[2], lines[3], lines[4], lines[5])
     pyperclip.copy(final_str)
@@ -253,17 +253,18 @@ def main(text: str) -> None:
 
 if __name__ == '__main__':
     if "linux" in sys.platform:
-        if len(sys.argv) > 2:
+        if len(sys.argv) == 2:
+            if sys.argv[1] == "-h":
+                print(
+                    "Usage: %s [TEXT] ...\n\n"
+                    "Adds to your clipboard the given text under the form of a block title\n\n"
+                    "Example:\n%s \"My title\"" % (sys.argv[0], sys.argv[0])
+                )
+            else:
+                main(sys.argv[1])
+        else:
             print("Wrong number of arguments.\nTry '%s -h' for more information." % sys.argv[0])
             exit(1)
-        if sys.argv[1] == "-h":
-            print(
-                "Usage: %s [TEXT] ...\n\n"
-                "Adds to your clipboard the given text under the form of a block title\n\n"
-                "Example:\n%s \"My title\"" % (sys.argv[0], sys.argv[0])
-            )
-        else:
-            main(sys.argv[1])
     else:
         # Replace the text here manually if you are on any other system than Linux
         main("Your text")
