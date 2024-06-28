@@ -240,10 +240,11 @@ def main(text: str) -> None:
     lines: list[str] = []
     text_len = len(text)
     for line_nb in range(6):
-        # For each letter, add its part of index 'line_nb' to current_line
-        current_line = [letters[s][line_nb] for s in range(text_len)]
         # Makes all the values in the current list a single string
-        lines.append("".join(current_line))
+        lines.append("".join(
+            # For each letter, add its part of index 'line_nb' to the list
+            [letters[s][line_nb] for s in range(text_len)]
+        ))
 
     final_str = "%s\n%s\n%s\n%s\n%s\n%s" % (lines[0], lines[1], lines[2], lines[3], lines[4], lines[5])
     pyperclip.copy(final_str)
