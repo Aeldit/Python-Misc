@@ -1,17 +1,17 @@
 #!/bin/env python3
 """
-@author: Aeldit <https://github.com/Aeldit/>
-@summary: Prints in the console (Windows) or adds to the clipboard the given text but as a 'blocks' title
+:author: Aeldit <https://github.com/Aeldit/>
+:summary: Prints in the console (Windows) or adds to the clipboard the given
+text but as a 'blocks' title
 """
-########################################################################################################################
-#                                                       IMPORTS                                                        #
-########################################################################################################################
+################################################################################
+#                                   IMPORTS                                    #
+################################################################################
 import sys
-import pyperclip
 
-########################################################################################################################
-#                                                   GLOBAL VARIABLES                                                   #
-########################################################################################################################
+################################################################################
+#                               GLOBAL VARIABLES                               #
+################################################################################
 LETTERS = {
     'A': (
         " █████╗ ",
@@ -232,14 +232,15 @@ LETTERS = {
 }
 
 
-########################################################################################################################
-#                                                      FUNCTIONS                                                       #
-########################################################################################################################
+################################################################################
+#                                  FUNCTIONS                                   #
+################################################################################
 def main(text: str) -> None:
     """
-    Takes the given string and puts it in the user clipboard
-    @param text: The text to transform into a blocks title
-    @return: None
+    Takes the given string and prints it in the console
+
+    :param text: The text to transform into a blocks title
+    :returns: None
     """
     # Appends all the letters found in the given string
     # (if the given letters are defined in the LETTERS array)
@@ -255,26 +256,28 @@ def main(text: str) -> None:
         ) for line_nb in range(6)
     )
 
-    final_str = "%s\n%s\n%s\n%s\n%s\n%s" % (lines[0], lines[1], lines[2], lines[3], lines[4], lines[5])
-    pyperclip.copy(final_str)
-    print("The title has been successfully added to your clipboard, you can now copy it where you want")
+    print(
+        "\n".join(
+            (lines[0], lines[1], lines[2], lines[3], lines[4], lines[5])
+        )
+    )
     return None
 
 
 if __name__ == "__main__":
-    if "linux" in sys.platform:
-        if len(sys.argv) == 2:
-            if sys.argv[1] == "-h":
-                print(
-                    "Usage: %s [TEXT] ...\n\n"
-                    "Adds to your clipboard the given text under the form of a block title\n\n"
-                    "Example:\n%s \"My title\"" % (sys.argv[0], sys.argv[0])
-                )
-            else:
-                main(sys.argv[1])
+    if len(sys.argv) == 2:
+        if sys.argv[1] == "-h":
+            print(
+                "Usage: %s [TEXT] ...\n\n"
+                "Prints in the console the given text under the form of "
+                "a block title\n\n"
+                "Example:\n%s \"My title\"" % (sys.argv[0], sys.argv[0])
+            )
         else:
-            print("Wrong number of arguments.\nTry '%s -h' for more information." % sys.argv[0])
-            exit(1)
+            main(sys.argv[1])
     else:
-        # Replace the text here manually if you are on any other system than Linux
-        main("Your text")
+        print(
+            "Wrong number of arguments.\nTry '%s -h' for more "
+            "information." %
+            sys.argv[0]
+        )
