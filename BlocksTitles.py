@@ -237,29 +237,26 @@ LETTERS = {
 ################################################################################
 #                                  FUNCTIONS                                   #
 ################################################################################
-def main(text: str) -> None:
+def main(text: str) -> str:
     """
-    Takes the given string and prints it in the console
+    Transforms the given text to a 'blocky' one
 
     :param text: The text to transform into a blocks title
-    :returns: None
+    :returns: The blocky text
     """
     # Appends all the letters found in the given string
     # (if the given letters are defined in the LETTERS array)
     letters = tuple(LETTERS[s] for s in text.upper() if s in LETTERS.keys())
-
     text_len = len(text)
-    lines = tuple(
+    return "\n".join(
         # Makes all the values in the current list a single string
         "".join(
             # For each letter, add its part of index 'line_nb' to the list
-            tuple(letters[s][line_nb] for s in range(text_len))
+            letters[s][line_nb]
+            for s in range(text_len)
         )
         for line_nb in range(6)
     )
-
-    print("\n".join((lines[0], lines[1], lines[2], lines[3], lines[4], lines[5])))
-    return None
 
 
 if __name__ == "__main__":
@@ -272,7 +269,7 @@ if __name__ == "__main__":
                 'Example:\n%s "My title"' % (sys.argv[0], sys.argv[0])
             )
         else:
-            main(sys.argv[1])
+            print(main(sys.argv[1]))
     else:
         print(
             "Wrong number of arguments.\nTry '%s -h' for more "
